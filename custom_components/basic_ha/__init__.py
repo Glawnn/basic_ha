@@ -71,12 +71,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         coordinator.handle_result(device_id, payload)
 
     unsub_state = await mqtt.async_subscribe(hass, TOPIC_STATE, state_received, qos=1)
-    unsub_avail = await mqtt.async_subscribe(
-        hass, TOPIC_AVAILABILITY, availability_received, qos=1
-    )
-    unsub_result = await mqtt.async_subscribe(
-        hass, TOPIC_RESULT, result_received, qos=1
-    )
+    unsub_avail = await mqtt.async_subscribe(hass, TOPIC_AVAILABILITY, availability_received, qos=1)
+    unsub_result = await mqtt.async_subscribe(hass, TOPIC_RESULT, result_received, qos=1)
     hass.data[DOMAIN][entry.entry_id]["unsubs"] = [
         unsub_state,
         unsub_avail,

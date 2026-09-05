@@ -23,9 +23,7 @@ async def async_setup_entry(
 ) -> None:
     coordinator: BasicHaCoordinator = hass.data[DOMAIN][entry.entry_id]["coordinator"]
 
-    async_add_entities(
-        BasicHaOnlineSensor(coordinator, dev) for dev in coordinator.data
-    )
+    async_add_entities(BasicHaOnlineSensor(coordinator, dev) for dev in coordinator.data)
 
     @callback
     def add_new_device(device_id: str) -> None:
@@ -49,9 +47,7 @@ class BasicHaOnlineSensor(CoordinatorEntity[BasicHaCoordinator], BinarySensorEnt
 
     @property
     def is_on(self) -> bool:
-        return bool(
-            self.coordinator.data.get(self._device_id, {}).get("available", False)
-        )
+        return bool(self.coordinator.data.get(self._device_id, {}).get("available", False))
 
     @property
     def available(self) -> bool:

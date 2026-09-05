@@ -1,0 +1,11 @@
+[tool.ruff]
+exclude = ["docker", ".git", "__pycache__"]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+ignore = ["BLE001"]  # seed.py blind exceptions inherited from pc-ha, keep as is
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]

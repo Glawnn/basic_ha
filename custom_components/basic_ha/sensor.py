@@ -35,9 +35,7 @@ async def async_setup_entry(
     def entities_for(device_id: str) -> list[SensorEntity]:
         return [BasicHaValueSensor(coordinator, device_id)]
 
-    async_add_entities(
-        [e for dev in coordinator.data for e in entities_for(dev)]
-    )
+    async_add_entities([e for dev in coordinator.data for e in entities_for(dev)])
 
     @callback
     def add_new_device(device_id: str) -> None:
@@ -61,9 +59,9 @@ class BasicHaValueSensor(CoordinatorEntity[BasicHaCoordinator], SensorEntity):
 
     @property
     def available(self) -> bool:
-        return super().available and self.coordinator.data.get(
-            self._device_id, {}
-        ).get("available", False)
+        return super().available and self.coordinator.data.get(self._device_id, {}).get(
+            "available", False
+        )
 
     @property
     def native_value(self) -> float | None:

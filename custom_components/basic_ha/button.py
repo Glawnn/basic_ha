@@ -29,9 +29,7 @@ async def async_setup_entry(
     def entities_for(device_id: str) -> list[ButtonEntity]:
         return [BasicHaCommandButton(coordinator, device_id, "ping")]
 
-    async_add_entities(
-        [e for dev in coordinator.data for e in entities_for(dev)]
-    )
+    async_add_entities([e for dev in coordinator.data for e in entities_for(dev)])
 
     @callback
     def add_new_device(device_id: str) -> None:
@@ -45,9 +43,7 @@ class BasicHaCommandButton(CoordinatorEntity[BasicHaCoordinator], ButtonEntity):
 
     _attr_has_entity_name = True
 
-    def __init__(
-        self, coordinator: BasicHaCoordinator, device_id: str, action: str
-    ) -> None:
+    def __init__(self, coordinator: BasicHaCoordinator, device_id: str, action: str) -> None:
         super().__init__(coordinator)
         self._device_id = device_id
         self._action = action
@@ -58,9 +54,9 @@ class BasicHaCommandButton(CoordinatorEntity[BasicHaCoordinator], ButtonEntity):
     @property
     def available(self) -> bool:
         # Exemple: bouton dispo seulement si device online
-        return super().available and self.coordinator.data.get(
-            self._device_id, {}
-        ).get("available", False)
+        return super().available and self.coordinator.data.get(self._device_id, {}).get(
+            "available", False
+        )
 
     async def async_press(self) -> None:
         await mqtt.async_publish(

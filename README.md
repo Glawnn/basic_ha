@@ -57,6 +57,32 @@ basic_ha/
     └── translations/en.json + fr.json
 ```
 
+## Tests
+
+```bash
+pip install -r requirements-dev.txt
+pytest -v                # dummy + coordinator
+ruff check . && ruff format --check .
+```
+
+CI tourne sur chaque branche et PR : `ci.yml` teste Python 3.12/3.13 x HA `2025.11.0`/`latest` (hassfest + hacs validate + pytest).
+
+## Déploiement HACS — comment ça marche
+
+**Principe** : HACS installe une intégration depuis un repo GitHub. `hacs.json` + `manifest.json` déclarent le projet, les `Releases` GitHub fournissent le zip. HAOS utilise le même mécanisme (HAOS = HA Core + Supervisor, HACS fonctionne pareil).
+
+1. **Prépare** : `manifest.json:10` `version` = `0.1.0`, `documentation` = URL repo, `hacs.json:2` `name` correct.
+2. **Tag** : `git tag -a v0.1.0 -m "v0.1.0" && git push --tags`
+   * Le tag déclenche `release.yml` (`tags: v*` + `workflow_dispatch` pour test manuel).
+   * Le workflow vérifie `tag == manifest version`, lance `pytest` + `hassfest` + `hacs validate`, puis build `basic_ha.zip` (`custom_components/basic_ha`) + `sha256`, et crée la Release via `softprops/action-gh-release@v2`.
+3. **Installe dans HA (HAOS ou autre)** :
+   * HACS → Intégrations → ⋮ → Dépôts personnalisés → URL `https://github.com/Glawnn/basic_ha` → Catégorie `Integration` → Ajouter
+   * HACS → Basic HA → Télécharger → Redémarrer HA
+   * Paramètres → Appareils et services → Ajouter intégration → Basic HA
+   * Pour passer en store par défaut HACS (visible sans dépôt custom), fais une PR sur `hacs/default` après 1 release stable.
+
+Tester une release sans tag : `Actions → Release (HACS) → Run workflow`.
+
 ## Renommer
 
 Cherche/remplace `basic_ha` + `basic-ha` + `Basic HA` vers ton nouveau domaine. Garde `hacs.json` aligné avec `manifest.json`.
