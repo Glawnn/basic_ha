@@ -21,11 +21,12 @@ jobs:
       - name: Install deps
         run: |
           python -m pip install --upgrade pip
+          pip install homeassistant
           pip install -r requirements-dev.txt
 
       - name: Validate (hassfest + hacs + tests)
         run: |
-          python -m script.hassfest --integration-path custom_components/basic_ha || echo "hassfest skip"
+          hassfest --integration-path custom_components/basic_ha || python -m homeassistant.scripts.hassfest --integration-path custom_components/basic_ha || echo "hassfest skip"
           pytest -q --asyncio-mode=auto
 
       - name: HACS validation

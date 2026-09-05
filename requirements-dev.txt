@@ -1,7 +1,6 @@
-# Dev deps for basic_ha — latest HA tested in CI (2025.11)
-# Install: pip install -r requirements-dev.txt
+# Dev deps for basic_ha — HA is installed separately in CI matrix (see ci.yml)
+# Install local: pip install -r requirements-dev.txt && pip install homeassistant
 ruff>=0.8
 pytest>=8
 pytest-asyncio>=0.24
 pytest-homeassistant-custom-component>=0.13
-homeassistant>=2025.11.0

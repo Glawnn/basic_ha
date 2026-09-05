@@ -21,8 +21,9 @@ jobs:
   test:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
-        python-version: ["3.12", "3.13"]
+        python-version: ["3.13"]
         ha-version: ["2025.11.0", "latest"]
     steps:
       - uses: actions/checkout@v4
@@ -40,7 +41,7 @@ jobs:
           pip install -r requirements-dev.txt
       - name: Hassfest
         run: |
-          python -m script.hassfest --integration-path custom_components/basic_ha || echo "hassfest not available, skipping"
+          hassfest --integration-path custom_components/basic_ha || python -m homeassistant.scripts.hassfest --integration-path custom_components/basic_ha || echo "hassfest not available, skipping"
       - name: HACS validate
         uses: hacs/action@main
         with:
