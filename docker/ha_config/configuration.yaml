@@ -1,0 +1,6 @@
+# Minimal HA config dev — miroir pc-ha (sans mqtt: ni http:)
+# Le broker MQTT se configure via UI (seed.py s'en charge).
+default_config:
+
+logger:
+  default: info

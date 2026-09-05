@@ -1,0 +1,25 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Basic HA",
+        "description": "Uses the already-configured MQTT broker. Devices are discovered automatically via MQTT."
+      }
+    },
+    "abort": {
+      "single_instance_allowed": "[%key:common::config_flow::abort::single_instance_allowed%]",
+      "mqtt_not_setup": "The MQTT integration is not set up. Configure the MQTT broker first."
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "online": { "name": "Online" }
+    },
+    "sensor": {
+      "value": { "name": "Value" }
+    },
+    "button": {
+      "ping": { "name": "Ping" }
+    }
+  }
+}

@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[oc]
+.venv/
+dist/
+build/
+*.egg-info/
+
+# HA runtime
+ha_config/.storage/
+*.db
+*.db-shm
+*.db-wal
+*.log
+
+# Editors / OS
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
