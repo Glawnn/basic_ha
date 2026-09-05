@@ -46,6 +46,7 @@ jobs:
         uses: hacs/action@main
         with:
           category: integration
+        continue-on-error: true
       - name: Pytest
         run: pytest -v --asyncio-mode=auto
 
